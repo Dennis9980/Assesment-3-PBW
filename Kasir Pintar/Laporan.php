@@ -7,8 +7,26 @@
     <title>Laporan</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <?php
+      require 'Connect.php';
+      
+      function get($query){
+        global $conn;
+        $result = mysqli_query($conn, $query);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        return $data;
+      }
+
+      $dataPenjualan = get("SELECT barang.id_barang, barang.nama_barang, penjualan.jumlah_barang, penjualan.total, user.Nama, penjualan.tanggal_input FROM barang, penjualan, user 
+                 WHERE barang.id_barang = penjualan.id_barang AND penjualan.id_user = user.id GROUP BY barang.id_barang")
+    ?>
 </head>
 <body>
+    <!--Navbar-->
     <div class="mb-3">
         <nav class="navbar navbar-dark bg-success">
         <div class="container-fluid">
@@ -47,19 +65,17 @@
         </div>
         </nav>
     </div>
-
+    <!--tabel cari-->
     <div class="container-md">
-        <form method="post" action="index.php?page=laporan&hari=cek">
-            <table class="table table-striped">
+        <table class="table">
+            <thead class="table-success">
                 <tr>
-                    <th>
-                        Pilih Hari
-                    </th>
-                    <th>
-                        Aksi
-                    </th>
+                    <th scope="col">Pilih Hari</th>
+                    <th scope="col">Aksi</th>
                 </tr>
-                <tr>
+            </thead>
+            <tbody>
+            <tr>
                 <td>
                     <input type="date" value="<?= date('Y-m-d');?>" class="form-control" name="hari">
                 </td>
@@ -72,9 +88,35 @@
                         <i class="fa fa-refresh"></i> Refresh</a>
                         
                 </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--tabel Nampilin-->
+        <table class="table table-bordered">
+            <thead class="table-success">
+                <tr>
+                    <th>ID Barang</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                    <th>Kasir</th>
+                    <th>Tanggal Input</th>
                 </tr>
-            </table>
-        </form>
+            </thead>
+            <tbody>
+                <?php foreach($dataPenjualan as $data):?>
+                    <tr>
+                        <td><?php echo $data['id_barang']?></td>
+                        <td><?php echo $data['nama_barang']?></td>
+                        <td><?php echo $data['jumlah_barang']?></td>
+                        <td><?php echo $data['total']?></td>
+                        <td><?php echo $data['Nama']?></td>
+                        <td><?php echo $data['tanggal_input']?></td>
+                    </tr>
+                <?php endforeach;?>
+            </tbody>
+        </table>
         <div class="clearfix" style="border-top:1px solid #ccc;"></div>
     </div>
 </body>
