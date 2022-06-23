@@ -76,7 +76,7 @@
         </form>
         <!--tabel Nampilin-->
         <div class="mt-3">
-            <table class="table table-striped">
+            <table class="table table-bordered">
                 <thead class="table-success">
                     <tr>
                         <th>No</th>
@@ -89,19 +89,14 @@
                     </tr>
                 </thead>
                 <?php 
-                    //jika tanggal dari dan tanggal ke ada maka
                     if(isset($_GET['dari']) && isset($_GET['ke'])){
-                        // tampilkan data yang sesuai dengan range tanggal yang dicari 
                         $data = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang, penjualan.jumlah_barang, penjualan.total, user.Nama, penjualan.tanggal_input FROM barang, penjualan, user 
                         WHERE barang.id_barang = penjualan.id_barang AND penjualan.id_user = user.id AND penjualan.tanggal_input BETWEEN '".$_GET['dari']."' and '".$_GET['ke']."' GROUP BY barang.id_barang");
                     }else{
-                        //jika tidak ada tanggal dari dan tanggal ke maka tampilkan seluruh data
                         $data = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang, penjualan.jumlah_barang, penjualan.total, user.Nama, penjualan.tanggal_input FROM barang, penjualan, user 
                         WHERE barang.id_barang = penjualan.id_barang AND penjualan.id_user = user.id GROUP BY barang.id_barang");		
                     }
-                    // $no digunakan sebagai penomoran 
                     $no = 1;
-                    // while digunakan sebagai perulangan data 
                     while($d = mysqli_fetch_array($data)){
                 ?>
                 <tr>
@@ -112,6 +107,28 @@
                     <td><?php echo $d['total']?></td>
                     <td><?php echo $d['Nama']?></td>
                     <td><?php echo $d['tanggal_input']?></td>
+                </tr>
+                <?php } ?>
+            </table>
+        </div>
+        <div class="mt-3">
+            <table class="table table-bordered ">
+                <thead class="table-success">
+                    <tr>
+                        <th>Keuntungan</th>
+                    </tr>
+                </thead>
+                <?php 
+                    if(isset($_GET['dari']) && isset($_GET['ke'])){
+                        $data = mysqli_query($conn, "SELECT SUM(ROUND(penjualan.total / 2)) FROM penjualan WHERE penjualan.tanggal_input BETWEEN '".$_GET['dari']."' and '".$_GET['ke']."'");
+                    }else{
+                        $data = mysqli_query($conn, "SELECT SUM(ROUND(penjualan.total / 2)) FROM penjualan WHERE penjualan.tanggal_input");		
+                    }
+                    $no = 1;
+                    while($d = mysqli_fetch_array($data)){
+                ?>
+                <tr>
+                    <td><?php echo $d['SUM(ROUND(penjualan.total / 2))']?></td>
                 </tr>
                 <?php } ?>
             </table>
