@@ -11,6 +11,7 @@
 
 </head>
 <body>
+  <!-- navbar -->
     <div class="mb-3">
         <nav class="navbar navbar-dark bg-success">
           <div class="container-fluid">
@@ -25,11 +26,11 @@
               </div>
               <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                  <li>
-                    <div class="card bg-success" style="width: 18rem;">
-                      <img src="../Asset/kucing.jpg" class="card-img-top" alt="...">
+                  <li class="nav-item">
+                    <div class="card bg-success container-lg" style="width: 18rem;">
+                      <img src="../Asset/kucing.jpg" class="card-img-top" alt="Foto km">
                       <div class="card-body">
-                        <h5 class="card-title">Halo</h5>
+                        <h5 class="text-center">Halo</h5>
                       </div>
                     </div>
                   </li>
@@ -57,7 +58,7 @@
           </div>
         </nav>
     </div>
-
+<!-- main konten -->
     <div class="container-md">
         <div class="row">
           <div class="col-sm-6">
@@ -81,7 +82,5 @@
         </div>
     </div>
 
-      
-    
 </body>
 </html>

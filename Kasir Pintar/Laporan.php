@@ -10,19 +10,6 @@
     
     <?php
       require 'Connect.php';
-      
-      function get($query){
-        global $conn;
-        $result = mysqli_query($conn, $query);
-        $data = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $data[] = $row;
-        }
-        return $data;
-      }
-
-      $dataPenjualan = get("SELECT barang.id_barang, barang.nama_barang, penjualan.jumlah_barang, penjualan.total, user.Nama, penjualan.tanggal_input FROM barang, penjualan, user 
-                 WHERE barang.id_barang = penjualan.id_barang AND penjualan.id_user = user.id GROUP BY barang.id_barang")
     ?>
 </head>
 <body>
@@ -66,58 +53,70 @@
         </nav>
     </div>
     <!--tabel cari-->
-    <div class="container-md">
-        <table class="table">
-            <thead class="table-success">
-                <tr>
-                    <th scope="col">Pilih Hari</th>
-                    <th scope="col">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <input type="date" value="<?= date('Y-m-d');?>" class="form-control" name="hari">
-                </td>
-                <td>
-                    <input type="hidden" name="periode" value="ya">
-                    <button class="btn btn-primary">
-                        <i class="fa fa-search"></i> Cari
-                    </button>
-                    <a href="index.php?page=laporan" class="btn btn-success">
-                        <i class="fa fa-refresh"></i> Refresh</a>
-                        
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
+    <div class="container md">
+        <h2 class="text-center">Data Penjualan</h2>
+        <form action="Laporan.php" method="get">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="col-form-label">Periode</label>
+                </div>
+                <div class="col-auto">
+                    <input type="date" class="form-control" name="dari" required>
+                </div>
+                <div class="col-auto">
+                    -
+                </div>
+                <div class="col-auto">
+                    <input type="date" class="form-control" name="ke" required>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">Cari</button>
+                </div>
+            </div>
+        </form>
         <!--tabel Nampilin-->
-        <table class="table table-bordered">
-            <thead class="table-success">
-                <tr>
-                    <th>ID Barang</th>
-                    <th>Nama Barang</th>
-                    <th>Jumlah</th>
-                    <th>Total</th>
-                    <th>Kasir</th>
-                    <th>Tanggal Input</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($dataPenjualan as $data):?>
+        <div class="mt-3">
+            <table class="table table-striped">
+                <thead class="table-success">
                     <tr>
-                        <td><?php echo $data['id_barang']?></td>
-                        <td><?php echo $data['nama_barang']?></td>
-                        <td><?php echo $data['jumlah_barang']?></td>
-                        <td><?php echo $data['total']?></td>
-                        <td><?php echo $data['Nama']?></td>
-                        <td><?php echo $data['tanggal_input']?></td>
+                        <th>No</th>
+                        <th>ID Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Jumlah</th>
+                        <th>Total</th>
+                        <th>Kasir</th>
+                        <th>Tanggal Input</th>
                     </tr>
-                <?php endforeach;?>
-            </tbody>
-        </table>
-        <div class="clearfix" style="border-top:1px solid #ccc;"></div>
+                </thead>
+                <?php 
+                    //jika tanggal dari dan tanggal ke ada maka
+                    if(isset($_GET['dari']) && isset($_GET['ke'])){
+                        // tampilkan data yang sesuai dengan range tanggal yang dicari 
+                        $data = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang, penjualan.jumlah_barang, penjualan.total, user.Nama, penjualan.tanggal_input FROM barang, penjualan, user 
+                        WHERE barang.id_barang = penjualan.id_barang AND penjualan.id_user = user.id AND penjualan.tanggal_input BETWEEN '".$_GET['dari']."' and '".$_GET['ke']."' GROUP BY barang.id_barang");
+                    }else{
+                        //jika tidak ada tanggal dari dan tanggal ke maka tampilkan seluruh data
+                        $data = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang, penjualan.jumlah_barang, penjualan.total, user.Nama, penjualan.tanggal_input FROM barang, penjualan, user 
+                        WHERE barang.id_barang = penjualan.id_barang AND penjualan.id_user = user.id GROUP BY barang.id_barang");		
+                    }
+                    // $no digunakan sebagai penomoran 
+                    $no = 1;
+                    // while digunakan sebagai perulangan data 
+                    while($d = mysqli_fetch_array($data)){
+                ?>
+                <tr>
+                    <td><?php echo $no++; ?></td>
+                    <td><?php echo $d['id_barang']?></td>
+                    <td><?php echo $d['nama_barang']?></td>
+                    <td><?php echo $d['jumlah_barang']?></td>
+                    <td><?php echo $d['total']?></td>
+                    <td><?php echo $d['Nama']?></td>
+                    <td><?php echo $d['tanggal_input']?></td>
+                </tr>
+                <?php } ?>
+            </table>
+        </div>
     </div>
+    
 </body>
 </html>
