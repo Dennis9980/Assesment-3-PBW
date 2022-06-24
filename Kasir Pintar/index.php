@@ -45,7 +45,7 @@
                       Penjualan
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-                      <li><a class="dropdown-item" href="#">Transaksi</a></li>
+                      <li><a class="dropdown-item" href="terima_barang.php">Transaksi</a></li>
                       <li><a class="dropdown-item" href="Laporan.php">Laporan Penjualan</a></li>
                     </ul>
                   </li>
