@@ -16,9 +16,10 @@
         $harga_beli = $_POST['harga_beli'];
         $harga_jual =  $_POST['harga_jual'];
         $stok       = $_POST['stok'];
-        $tgl_input  = $_POST['tgl_input'];
+        $tanggal_input  = $_POST['tangal_input'];
+        $tanggal_update =$_POST['tanggal_update'];
     
-        $insert = mysqli_query($c, "insert into produk (nama_barang,harga_beli,harga_jual,stok, tgl_input) values ('$nama_barang', ' $harga_beli',' $harga_jual','$stok','$tgl_input')");
+         $insert = mysqli_query($c, "insert into produk (nama_barang,harga_beli,harga_jual,stok, tanggal_input, tanggal_update) values ('$nama_barang', ' $harga_beli',' $harga_jual','$stok','$tanggal_input','$tanggal_update')");
         if($insert){
             header('location:stok.php');
         }else{
@@ -36,10 +37,11 @@
         $nama_barang = $_POST['nama_barang'];
         $harga_beli = $_POST['harga_beli'];
         $harga_jual =  $_POST['harga_jual'];
-        $tgl_input = $_POST['tgl input'];
+        $tanggal_input = $_POST['tanggal input'];
+        $tanggal_update = $_POST['tanggal_update'];
         $idproduk = $_POST['idproduk'];//idproduk
 
-        $query = mysqli_query($c, "update produk set nama_barang='$nama_barang', harga_beli='$harga_beli', harga_jual='$harga_jual', tgl_input='$tgl_input' where idproduk='$idproduk' ");
+        $query = mysqli_query($c, "update produk set nama_barang='$nama_barang', harga_beli='$harga_beli', harga_jual='$harga_jual', tanggal_input='$tanggal_input', tanggal_update='$tanggal_update' where idproduk='$idproduk' ");
 
         if($query){
             header('location:stok.php');
