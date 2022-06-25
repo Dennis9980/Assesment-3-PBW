@@ -108,7 +108,8 @@ $h2 = mysqli_num_rows($h1); // jumlah produk
                                         $harga_beli = $p['harga_beli'];
                                         $harga_jual =  $p['harga_jual'];
                                         $stok       = $p['stok'];
-                                        $tgl_input = $p['tgl_input'];
+                                        $tanggal_input = $p['tanggal_input'];
+                                        $tanggal_update = $p['tanggal_update'];
                                         $idproduk   = $p['idproduk'];
                                         
                                         
@@ -233,6 +234,7 @@ $h2 = mysqli_num_rows($h1); // jumlah produk
           <input type="num" name="harga_jual" class="form-control mt-2" placeholder="Harga Jual">
           <input type="num" name="stok" class="form-control mt-2" placeholder="Stok">
           <input type="text" name="tgl_input" class="form-control mt-2" placeholder="Tanggal Input">
+           <input type="text" name="tanggal_update" class="form-control mt-2" placeholder="Tanggal update">
           
         </div>
         
